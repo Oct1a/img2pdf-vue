@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build --no-clean"
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "element-ui": "^2.15.6",
+    "nprogress": "^0.2.0",
+    "pdfmake": "^0.2.2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vuedraggable": "^2.24.3",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

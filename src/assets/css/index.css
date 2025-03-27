@@ -1,0 +1,99 @@
+html,
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    font-size: 16px;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+.tipText {
+    margin: 1rem 0;
+}
+
+.el-upload__tip {
+    font-size: .1rem;
+}
+
+.pageDirection {
+    /* padding: 1.5rem; */
+    text-align: center;
+    cursor: pointer;
+}
+
+.activePage {
+    border: 2px dotted #F56C6C !important;
+}
+
+.pageMargin {
+    /* padding: 0.1rem; */
+    font-size: .8rem;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+}
+
+.pageMargin span {
+    display: block;
+    margin-top: .5rem;
+}
+
+.margin-custom-box {
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
+.margin-custom-box-special {
+    width: auto;
+    height: auto;
+    max-width: 2.5rem;
+}
+
+.submit_btn {
+    display: block;
+    width: 100%;
+    padding: 1rem 2rem;
+    margin: 2rem 0;
+}
+
+.customMargin {
+    margin-top: 1.3rem;
+}
+
+.setting_btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.start_btn {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    bottom: .2rem; 
+    /* margin: 0 auto; 
+    text-align: center; */
+
+}
+
+.el-drawer__header {
+    margin-bottom: .5rem;
+}
+
+.vertical-box {
+    width: 2rem;
+    height: 3rem;
+    border: .1rem solid #ccc;
+    display: inline-block;
+}
+
+.horizontal-box {
+    width: 3rem;
+    height: 2rem;
+    border: .1rem solid #ccc;
+    margin: .5rem;
+    display: inline-block;
+}
+

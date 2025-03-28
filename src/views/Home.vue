@@ -396,7 +396,54 @@ export default {
                             singleDocDefinition.pageOrientation = aspectRatio > 1 ? 'landscape' : 'portrait';
                         }
                         
-                        singleDocDefinition.content = [content[i]];
+                        // 获取画布尺寸
+                        const {canvas_width, canvas_height} = this.getPdfCanvasSize();
+                        const margin_value = singleDocDefinition.pageMargins * 2;
+                        
+                        // 创建图片配置
+                        let imageConfig = {
+                            image: content[i].image
+                        };
+
+                        // 根据显示模式设置图片尺寸
+                        if(this.getDBdata('page-imgState-switch') == 1) {
+                            // 图片撑满模式
+                            if (singleDocDefinition.pageOrientation === 'portrait') {
+                                imageConfig.width = canvas_width - margin_value;
+                                imageConfig.height = canvas_height - margin_value;
+                            } else {
+                                imageConfig.width = canvas_height - margin_value;
+                                imageConfig.height = canvas_width - margin_value;
+                            }
+                        } else {
+                            // 保持原比例模式
+                            const img_width = px2inch(this.fileList[i].width);
+                            const img_height = px2inch(this.fileList[i].height);
+                            const aspectRatio = img_width / img_height;
+                            
+                            // 计算合适的显示尺寸，保持原比例
+                            let displayWidth, displayHeight;
+                            if (singleDocDefinition.pageOrientation === 'portrait') {
+                                displayWidth = canvas_width - margin_value;
+                                displayHeight = displayWidth / aspectRatio;
+                                if (displayHeight > canvas_height - margin_value) {
+                                    displayHeight = canvas_height - margin_value;
+                                    displayWidth = displayHeight * aspectRatio;
+                                }
+                            } else {
+                                displayHeight = canvas_height - margin_value;
+                                displayWidth = displayHeight * aspectRatio;
+                                if (displayWidth > canvas_width - margin_value) {
+                                    displayWidth = canvas_width - margin_value;
+                                    displayHeight = displayWidth / aspectRatio;
+                                }
+                            }
+                            
+                            imageConfig.width = displayWidth;
+                            imageConfig.height = displayHeight;
+                        }
+                        
+                        singleDocDefinition.content = [imageConfig];
                         const pdfDoc = pdfMake.createPdf(singleDocDefinition);
                         pdfDoc.download(`图片转PDF_${i + 1}.pdf`);
                     }
@@ -474,11 +521,43 @@ export default {
 
                     if(this.getDBdata('page-imgState-switch') == 1) {
                         // 图片撑满模式
-                        config.width = (docDefinition.pageOrientation == 'portrait' ? canvas_width : canvas_height) - margin_value;
+                        if (docDefinition.pageOrientation === 'portrait') {
+                            // 竖向模式
+                            config.width = canvas_width - margin_value;
+                            config.height = canvas_height - margin_value;
+                        } else {
+                            // 横向模式
+                            config.width = canvas_height - margin_value;
+                            config.height = canvas_width - margin_value;
+                        }
                     } else {
                         // 保持原比例模式
-                        const img_size = px2inch(this.fileList[index].width) / 100;
-                        config.width = (canvas_width * img_size) * 1.5;
+                        const img_width = px2inch(this.fileList[index].width);
+                        const img_height = px2inch(this.fileList[index].height);
+                        const aspectRatio = img_width / img_height;
+                        
+                        // 计算合适的显示尺寸，保持原比例
+                        let displayWidth, displayHeight;
+                        if (docDefinition.pageOrientation === 'portrait') {
+                            // 竖向模式
+                            displayWidth = canvas_width - margin_value;
+                            displayHeight = displayWidth / aspectRatio;
+                            if (displayHeight > canvas_height - margin_value) {
+                                displayHeight = canvas_height - margin_value;
+                                displayWidth = displayHeight * aspectRatio;
+                            }
+                        } else {
+                            // 横向模式
+                            displayHeight = canvas_height - margin_value;
+                            displayWidth = displayHeight * aspectRatio;
+                            if (displayWidth > canvas_width - margin_value) {
+                                displayWidth = canvas_width - margin_value;
+                                displayHeight = displayWidth / aspectRatio;
+                            }
+                        }
+                        
+                        config.width = displayWidth;
+                        config.height = displayHeight;
                     }
 
                     return config;
